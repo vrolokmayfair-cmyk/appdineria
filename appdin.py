@@ -216,7 +216,7 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
         <strong>3. Tratamiento Especial Exclusivo para Cuentas Wash 3:</strong><br>
         Las cuentas en el segmento Wash 3 cuentan con una regla diferenciada y definitiva para proteger el capital original otorgado:
         <ul>
-            <li>El factor de descuento del 1.0 aplicarará de forma única y exclusiva sobre el <strong>Principal Inicial otorgado al cliente (Columna K - issued_amount)</strong> del archivo de saldos.</li>
+            <li>El factor de descuento del 1.0 se aplicará de forma única y exclusiva sobre el <strong>Principal Inicial otorgado al cliente (Columna K - issued_amount)</strong> del archivo de saldos.</li>
             <li><strong>Límite Crítico:</strong> Este monto (1.0 del Principal inicial) constituye el <em>descuento máximo absoluto</em> autorizado para este segmento. Bajo ninguna circunstancia se podrá ofrecer o procesar un esquema de liquidación que resulte en un pago menor al Principal otorgado de la cuenta.</li>
             <li>Los topes cruzados explicados en las restricciones 1 y 2 no operan bajo la misma lógica para Wash 3, ya que la base de cálculo cambia directamente a la Columna K.</li>
         </ul>
@@ -233,7 +233,7 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
 
 
 # ==============================================================================
-# MÓDULO 4: MÉTODOS Y CANALES DE PAGO AUTORIZADOS (NUEVO)
+# MÓDULO 4: MÉTODOS Y CANALES DE PAGO AUTORIZADOS
 # ==============================================================================
 elif opcion == "4. Métodos y Canales de Pago":
     st.markdown('<h2 class="section-header">💳 Métodos y Canales de Pago Oficiales 2026</h2>', unsafe_allow_html=True)
@@ -254,7 +254,7 @@ elif opcion == "4. Métodos y Canales de Pago":
             * **Beneficiario:** Proximus Finance S DE RL DE CV
             * **Banco:** BBVA Bancomer
             * **CLABE:** `012180001068375493`
-            * **Concepto / Referencia:** `RFC + Dígito verificador` del cliente
+            * **Concepto:** `RFC + Dígito verificador` del cliente
             """)
             
         # 2. Practicaja o Ventanilla BBVA
@@ -295,13 +295,4 @@ elif opcion == "4. Métodos y Canales de Pago":
         
         # 1. Practicaja o Ventanilla BBVA
         with st.expander("1. Practicaja o Ventanilla BBVA"):
-            st.markdown("""
-            * **Ubicación:** Sucursal BBVA más cercana.
-            * **Instrucciones en Practicaja:** Seleccionar la opción **"Pago de Servicios"** e ingresar de manera manual.
-            * **Número de Convenio:** `2460149`
-            * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
-            * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
-            """)
-            
-        # 2. Transferencia bancaria
-        with st.expander("2. Transferencia Bancaria (De Bancomer a
+            st
