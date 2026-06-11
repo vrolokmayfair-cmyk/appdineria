@@ -49,7 +49,7 @@ st.markdown("""
 # ENCABEZADO PRINCIPAL
 # ==============================================================================
 st.markdown('<div class="main-title">DINERIA.MX - PORTAL DE CONSULTA OPERATIVA</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Módulo de Glosario, Estructura de Tasas y Políticas de Descuento</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Módulo de Glosario, Estructura de Tasas y Políticas Oficiales de Descuento</div>', unsafe_allow_html=True)
 
 # ==============================================================================
 # MENÚ DE NAVEGACIÓN LATERAL (SIDEBAR)
@@ -92,7 +92,7 @@ if opcion == "1. Glosario de Tecnicismos":
         ],
         "Nombre Comercial / Común": [
             "Saldo Total / Monto para Liquidar",
-            "Extensión de Plazo / Prórroga de Pago",
+            "Extensión de Plazo / Prorrroga de Pago",
             "Capital Neto Otorgado / Préstamo Base",
             "Fusión de Saldos / Ajuste de Cuenta",
             "Intereses Moratorios / Penalización por Atraso",
@@ -163,63 +163,64 @@ elif opcion == "2. Cuadro de Tasas Financieras":
 
 
 # ==============================================================================
-# MÓDULO 3: MATRIZ DE DESCUENTOS (WASH) Y REGLAS DE NEGOCIO
+# MÓDULO 3: MATRIZ DE DESCUENTOS DE ACUERDO AL DOCUMENTO OFICIAL MAYO 2026
 # ==============================================================================
 elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
-    st.markdown('<h2 class="section-header">📉 Matriz de Descuentos de Acuerdo al Segmento Wash</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 class="section-header">📉 Matriz de Descuentos Máximos Permitidos</h2>', unsafe_allow_html=True)
     st.write(
-        "Parámetros comerciales obligatorios y factores duros asignados para la negociación de cuentas en atraso. "
-        "El uso de estas bases garantiza la correcta conciliación automatizada con el sistema core."
+        "Lineamientos, criterios técnicos y limitantes para la aplicación de descuentos máximos autorizados "
+        "en las gestiones de cobranza de las carteras Dineria, Lanu y Prestomin."
     )
 
-    # Matriz limpia incluyendo los descuentos asignados desde Wash 0
+    # Estructura de tabla exacta basada en la sección 1 del documento proporcionado
     descuentos_data = {
-        "Segmento de Mora": [
-            "Wash 0 (Mora Preventiva)", 
-            "Wash 1 (Mora Temprana)", 
-            "Wash 2 (Mora Media)", 
-            "Wash 3 (Mora Profunda)"
+        "Segmento (Wash)": [
+            "0 y 1", 
+            "2", 
+            "3"
         ],
-        "Factor de Descuento": [
-            "Factor Autorizado Wash 0", 
-            "Factor 1.4", 
-            "Factor 1.2", 
-            "Factor 1.0"
+        "Descuento Máximo (Factor)": [
+            "1.4", 
+            "1.2", 
+            "1.0"
         ],
-        "Base de Cálculo en Sistema": [
-            "Calculado sobre el Saldo Bruto Total Exigible.",
-            "Calculado sobre el Saldo Bruto Total (Capital + Comisiones acumuladas + IVA).",
-            "Calculado sobre el Saldo de Capital Remanente (Principal Unpaid).",
-            "Calculado sobre el Monto Principal Otorgado Inicial (Issued Amount original)."
-        ],
-        "Margen de Condonación Permitido": [
-            "Descuento inicial según parámetros vigentes del Layout de Campaña.",
-            "Hasta un 20% máximo de condonación sobre el saldo total acumulado.",
-            "Hasta un 40% de descuento, eliminando moratorios generados en el periodo.",
-            "Liquidación al 100% del principal original, condonando el total de intereses y comisiones."
+        "Criterio de Base para Liquidación": [
+            "Aplica sobre el Principal Unpaid (Columna L).",
+            "Aplica sobre el Principal Unpaid (Columna L).",
+            "Aplica estrictamente sobre el Principal Inicial / Otorgado (Columna K)."
         ]
     }
 
     df_descuentos = pd.DataFrame(descuentos_data)
     st.dataframe(df_descuentos, use_container_width=True, hide_index=True)
 
-    st.markdown('<h3 style="color:#1b5e20; margin-top:25px;">📋 Reglas de Negocio para la Aplicación de Descuentos</h3>', unsafe_allow_html=True)
+    # REGLAS DE NEGOCIO EXTRAÍDAS FIELMENTE DEL ARCHIVO
+    st.markdown('<h3 style="color:#1b5e20; margin-top:25px;">📋 Reglas de Validación y Restricciones de Negocio</h3>', unsafe_allow_html=True)
 
     st.markdown("""
     <div class="rule-card">
-        <strong>1. Respeto Estricto de Factores:</strong><br>
-        Ningún asesor de cobranza o supervisor de agencia externa tiene facultades operativas en el core para aplicar quitas fuera de los factores asignados desde Wash 0 hasta Wash 3. Cualquier desviación en el cálculo provocará que el script de validación de pagos rechace la conciliación automática.
+        <strong>1. Restricción de Pago Mínimo (Tope contra Principal - Wash 0, 1 y 2):</strong><br>
+        Al aplicar el factor de descuento (1.4 o 1.2) sobre el <em>Principal Unpaid (Columna L)</em>, si el monto de liquidación resultante es menor al valor registrado bajo el concepto de <strong>Principal (Columna K)</strong>, el descuento quedará automáticamente cancelado. En estos supuestos, la agencia deberá gestionar la liquidación de la cuenta tomando como base el adeudo total al día.
     </div>
     <div class="rule-card">
-        <strong>2. Ventana de Promesas y Cierre de Abanderamiento:</strong><br>
-        Para que un descuento negociado sea respetado por el sistema y la cuenta no regrese al marcado masivo general, se debe registrar una promesa válida en el sistema antes del <strong>Martes a las 11:00 PM</strong>. Los acuerdos registrados los miércoles por la mañana se procesan sin abanderamiento y quedan expuestos a reasignación de cartera.
+        <strong>2. Restricción de Pago Máximo (Tope contra Adeudo Total - Wash 0, 1 y 2):</strong><br>
+        Al aplicar el factor de descuento, si el monto final de liquidación resultante es mayor al adeudo total vigente del usuario, el descuento no tendrá validez. La cobranza y liquidación se deberán formalizar exclusivamente cobrando el importe exacto del adeudo total al día.
     </div>
     <div class="rule-card">
-        <strong>3. Excepciones Especiales (Mesa de Control):</strong><br>
-        Cualquier propuesta económica que requiera romper los límites fijados por la matriz Wash debido a condiciones socioeconómicas críticas demostradas por el cliente, deberá tramitarse mediante un ticket formal enviado a la <strong>Dirección de Finanzas / Mesa de Control Inhouse</strong>. La respuesta de validación toma un plazo máximo de 3 días hábiles.
+        <strong>3. Tratamiento Especial Exclusivo para Cuentas Wash 3:</strong><br>
+        Las cuentas en el segmento Wash 3 cuentan con una regla diferenciada y definitiva para proteger el capital original otorgado:
+        <ul>
+            <li>El factor de descuento del 1.0 aplicará de forma única y exclusiva sobre el <strong>Principal Inicial otorgado al cliente (Columna K - issued_amount)</strong> del archivo de saldos.</li>
+            <li><strong>Límite Crítico:</strong> Este monto (1.0 del Principal inicial) constituye el <em>descuento máximo absoluto</em> autorizado para este segmento. Bajo ninguna circunstancia se podrá ofrecer o procesar un esquema de liquidación que resulte en un pago menor al Principal otorgado de la cuenta.</li>
+            <li>Los topes cruzados explicados en las restricciones 1 y 2 no operan bajo la misma lógica para Wash 3, ya que la base de cálculo cambia directamente a la Columna K.</li>
+        </ul>
     </div>
     <div class="rule-card">
-        <strong>4. Validación de Cartas Convenio:</strong><br>
-        Antes de indicarle al cliente que efectúe el depósito acordado con descuento, la agencia externa está obligada a emitir la Carta Convenio foliada y cargar el layout de pre-cierre. Pagos realizados sin el correspondiente soporte documental no se unificarán y se tomarán únicamente como abonos parciales al capital neto, reactivando la mora.
+        <strong>4. Criterios Operativos y de Cumplimiento General:</strong><br>
+        <ul>
+            <li><strong>Vigencia Estricta de la Información:</strong> Para generar, simular o registrar cualquier tipo de convenio de pago o descuento, es obligatorio e indispensable utilizar el archivo de "Saldos" emitido el mismo día en que se efectúa el compromiso con el cliente. Queda estrictamente prohibido utilizar bases de datos de días o fechas anteriores.</li>
+            <li><strong>Frecuencia e Historial de Pagos:</strong> Estas directrices de descuento se aplicarán de forma uniforme, sin importar el número de pagos previos que el cliente titular de la cuenta haya realizado a lo largo de la vida del crédito.</li>
+            <li><strong>Canal de Excepciones Especiales:</strong> Ante cualquier escenario, caso particular o cuenta atípica que requiera una valoración diferenciada o soporte adicional fuera de esta matriz, se deberá mantener el canal habitual de comunicación enviando la solicitud formal con el caso documentado a través del grupo oficial de WhatsApp para su respectiva validación y apoyo.</li>
+        </ul>
     </div>
     """, unsafe_allow_html=True)
