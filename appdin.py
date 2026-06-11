@@ -42,6 +42,13 @@ st.markdown("""
         margin-bottom: 12px;
         color: #212121;
     }
+    .payment-brand {
+        color: #1b5e20;
+        font-weight: bold;
+        font-size: 18px;
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -49,7 +56,7 @@ st.markdown("""
 # ENCABEZADO PRINCIPAL
 # ==============================================================================
 st.markdown('<div class="main-title">DINERIA.MX - PORTAL DE CONSULTA OPERATIVA</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Módulo de Glosario, Estructura de Tasas y Políticas Oficiales de Descuento</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Módulo de Glosario, Estructura de Tasas, Descuentos y Métodos de Pago</div>', unsafe_allow_html=True)
 
 # ==============================================================================
 # MENÚ DE NAVEGACIÓN LATERAL (SIDEBAR)
@@ -60,14 +67,15 @@ opcion = st.sidebar.radio(
     [
         "1. Glosario de Tecnicismos", 
         "2. Cuadro de Tasas Financieras",
-        "3. Matriz de Descuentos (Wash) y Reglas"
+        "3. Matriz de Descuentos (Wash) y Reglas",
+        "4. Métodos y Canales de Pago"
     ]
 )
 
 st.sidebar.markdown("---")
 st.sidebar.info(
     "💡 **Instrucción Operativa:**\n"
-    "Este portal centraliza los términos oficiales del Core Bancario, las tasas vigentes y los márgenes de negociación autorizados para Dineria.mx."
+    "Este portal centraliza los términos oficiales del Core Bancario, las tasas vigentes, los márgenes de negociación y las cuentas bancarias autorizadas para la recaudación."
 )
 
 # ==============================================================================
@@ -92,7 +100,7 @@ if opcion == "1. Glosario de Tecnicismos":
         ],
         "Nombre Comercial / Común": [
             "Saldo Total / Monto para Liquidar",
-            "Extensión de Plazo / Prorrroga de Pago",
+            "Extensión de Plazo / Prórroga de Pago",
             "Capital Neto Otorgado / Préstamo Base",
             "Fusión de Saldos / Ajuste de Cuenta",
             "Intereses Moratorios / Penalización por Atraso",
@@ -163,7 +171,7 @@ elif opcion == "2. Cuadro de Tasas Financieras":
 
 
 # ==============================================================================
-# MÓDULO 3: MATRIZ DE DESCUENTOS DE ACUERDO AL DOCUMENTO OFICIAL MAYO 2026
+# MÓDULO 3: MATRIZ DE DESCUENTOS (WASH) Y REGLAS DE NEGOCIO
 # ==============================================================================
 elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
     st.markdown('<h2 class="section-header">📉 Matriz de Descuentos Máximos Permitidos</h2>', unsafe_allow_html=True)
@@ -172,7 +180,6 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
         "en las gestiones de cobranza de las carteras Dineria, Lanu y Prestomin."
     )
 
-    # Estructura de tabla exacta basada en la sección 1 del documento proporcionado
     descuentos_data = {
         "Segmento (Wash)": [
             "0 y 1", 
@@ -194,7 +201,6 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
     df_descuentos = pd.DataFrame(descuentos_data)
     st.dataframe(df_descuentos, use_container_width=True, hide_index=True)
 
-    # REGLAS DE NEGOCIO EXTRAÍDAS FIELMENTE DEL ARCHIVO
     st.markdown('<h3 style="color:#1b5e20; margin-top:25px;">📋 Reglas de Validación y Restricciones de Negocio</h3>', unsafe_allow_html=True)
 
     st.markdown("""
@@ -210,7 +216,7 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
         <strong>3. Tratamiento Especial Exclusivo para Cuentas Wash 3:</strong><br>
         Las cuentas en el segmento Wash 3 cuentan con una regla diferenciada y definitiva para proteger el capital original otorgado:
         <ul>
-            <li>El factor de descuento del 1.0 aplicará de forma única y exclusiva sobre el <strong>Principal Inicial otorgado al cliente (Columna K - issued_amount)</strong> del archivo de saldos.</li>
+            <li>El factor de descuento del 1.0 aplicarará de forma única y exclusiva sobre el <strong>Principal Inicial otorgado al cliente (Columna K - issued_amount)</strong> del archivo de saldos.</li>
             <li><strong>Límite Crítico:</strong> Este monto (1.0 del Principal inicial) constituye el <em>descuento máximo absoluto</em> autorizado para este segmento. Bajo ninguna circunstancia se podrá ofrecer o procesar un esquema de liquidación que resulte en un pago menor al Principal otorgado de la cuenta.</li>
             <li>Los topes cruzados explicados en las restricciones 1 y 2 no operan bajo la misma lógica para Wash 3, ya que la base de cálculo cambia directamente a la Columna K.</li>
         </ul>
@@ -224,3 +230,78 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
         </ul>
     </div>
     """, unsafe_allow_html=True)
+
+
+# ==============================================================================
+# MÓDULO 4: MÉTODOS Y CANALES DE PAGO AUTORIZADOS (NUEVO)
+# ==============================================================================
+elif opcion == "4. Métodos y Canales de Pago":
+    st.markdown('<h2 class="section-header">💳 Métodos y Canales de Pago Oficiales 2026</h2>', unsafe_allow_html=True)
+    st.write(
+        "Cuentas, convenios bancarios y referencias oficiales asignadas por marca para recibir extensiones o liquidaciones totales. "
+        "Es obligatorio indicar al cliente el concepto de pago de manera exacta para evitar problemas de unificación."
+    )
+
+    # Pestañas para segmentar los métodos de pago de cada producto de forma ordenada
+    tab1, tab2, tab3 = st.tabs(["Dineria.mx", "PRESTOMIN", "Lanu.mx"])
+
+    with tab1:
+        st.markdown('<div class="payment-brand">Canales Autorizados para dineria.mx</div>', unsafe_allow_html=True)
+        
+        # 1. Transferencia Bancaria
+        with st.expander("1. Transferencia Electrónica (SPEI)"):
+            st.markdown("""
+            * **Beneficiario:** Proximus Finance S DE RL DE CV
+            * **Banco:** BBVA Bancomer
+            * **CLABE:** `012180001068375493`
+            * **Concepto / Referencia:** `RFC + Dígito verificador` del cliente
+            """)
+            
+        # 2. Practicaja o Ventanilla BBVA
+        with st.expander("2. Practicaja o Ventanilla BBVA"):
+            st.markdown("""
+            * **Ubicación:** Sucursal BBVA más cercana.
+            * **Instrucciones en Practicaja:** Seleccionar la opción **"Pago de Servicios"**.
+            * **Número de Convenio:** `1371681`
+            * **Nombre del Beneficiario:** Proximus Finance S DE RL DE CV
+            * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
+            """)
+            
+        # 3. Pago en Tiendas OXXO
+        with st.expander("3. Pago Presencial en OXXO"):
+            st.markdown("""
+            * **Ubicación:** Cualquier sucursal OXXO de la República Mexicana.
+            * **Mecánica:** El cliente tiene que acudir al OXXO más cercano y realizar su pago directamente en caja.
+            * **Requisito Obligatorio:** Deberá presentar su **Estado de Cuenta impreso** y mostrar el código de barras al cajero para su escaneo.
+            """)
+
+    with tab2:
+        st.markdown('<div class="payment-brand">Canales Autorizados para PRESTOMIN</div>', unsafe_allow_html=True)
+        
+        # 1. Practicaja o Ventanilla BBVA
+        st.markdown("#### 1. Módulo BBVA (Ventanilla / Practicaja)")
+        st.markdown("""
+        * **Ubicación:** Sucursal BBVA más cercana.
+        * **Instrucciones Generales:**
+            * En **Ventanilla**: Brindar de forma directa los datos al ejecutivo en caja.
+            * En **Practicaja**: Escoger la opción de pantalla **"Pago de Servicios"** e ingresar manualmente los datos.
+        * **Número de Convenio:** `002370344`
+        * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
+        * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
+        """)
+
+    with tab3:
+        st.markdown('<div class="payment-brand">Canales Autorizados para lanu.mx</div>', unsafe_allow_html=True)
+        
+        # 1. Practicaja o Ventanilla BBVA
+        with st.expander("1. Practicaja o Ventanilla BBVA"):
+            st.markdown("""
+            * **Ubicación:** Sucursal BBVA más cercana.
+            * **Instrucciones en Practicaja:** Seleccionar la opción **"Pago de Servicios"** e ingresar de manera manual.
+            * **Número de Convenio:** `2460149`
+            * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
+            * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
+            """)
+            
+        # 2. Transferencia bancaria
+        with st.expander("2. Transferencia Bancaria (De Bancomer a
