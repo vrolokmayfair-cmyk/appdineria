@@ -43,13 +43,13 @@ st.markdown("""
         color: #e0e0e0;
     }
     </style>
-""", unsafe_index=True)
+""", unsafe_allow_html=True)
 
 # ==============================================================================
 # ENCABEZADO PRINCIPAL
 # ==============================================================================
-st.markdown('<div class="main-title">EL TEMPLO DE ANUBIS - CONSULTA OPERATIVA</div>', unsafe_index=True)
-st.markdown('<div class="subtitle">Módulo de Glosario de Campaña y Estructura de Tasas Financieras</div>', unsafe_index=True)
+st.markdown('<div class="main-title">EL TEMPLO DE ANUBIS - CONSULTA OPERATIVA</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Módulo de Glosario de Campaña y Estructura de Tasas Financieras</div>', unsafe_allow_html=True)
 
 # ==============================================================================
 # MENÚ DE NAVEGACIÓN LATERAL (SIDEBAR)
@@ -70,7 +70,7 @@ st.sidebar.info(
 # MÓDULO 1: GLOSARIO DE TECNICISMOS DE LA CAMPAÑA
 # ==============================================================================
 if opcion == "1. Glosario de Tecnicismos":
-    st.markdown('<h2 class="section-header">📖 Glosario de Tecnicismos de la Campaña</h2>', unsafe_index=True)
+    st.markdown('<h2 class="section-header">📖 Glosario de Tecnicismos de la Campaña</h2>', unsafe_allow_html=True)
     st.write(
         "A continuación se detallan los conceptos técnicos obligatorios para la gestión en piso, "
         "así como su equivalencia comercial directa para negociaciones eficaces."
@@ -126,7 +126,7 @@ if opcion == "1. Glosario de Tecnicismos":
 # MÓDULO 2: CUADRO DE TASAS FINANCIERAS
 # ==============================================================================
 elif opcion == "2. Cuadro de Tasas Financieras":
-    st.markdown('<h2 class="section-header">📊 Cuadro de Tasas Financieras de la Operación</h2>', unsafe_index=True)
+    st.markdown('<h2 class="section-header">📊 Cuadro de Tasas Financieras de la Operación</h2>', unsafe_allow_html=True)
     st.write("Estructura oficial de rendimientos, tasas equivalentes ordinarias y recargos moratorios programados en el core:")
 
     # Datos del cuadro de tasas
@@ -150,7 +150,7 @@ elif opcion == "2. Cuadro de Tasas Financieras":
     st.table(df_tasas)
 
     # REGLAS DE IMPACTO FINANCIERO Y OPERATIVO
-    st.markdown('<h3 style="color:#d4af37; margin-top:25px;">⚠️ Reglas Críticas de Aplicación de Tasas</h3>', unsafe_index=True)
+    st.markdown('<h3 style="color:#d4af37; margin-top:25px;">⚠️ Reglas Críticas de Aplicación de Tasas</h3>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="rule-card">
@@ -165,4 +165,4 @@ elif opcion == "2. Cuadro de Tasas Financieras":
         <strong>3. Cierre de Conciliaciones:</strong><br>
         Todos los montos recaudados e intereses aplicados deben revisarse contra el Layout de Pre-Cierres provisto por el área de Pagos. Las agencias externas cuentan con un plazo límite e improrrogable de 8 días naturales para conciliar diferencias antes de que el cierre financiero sea definitivo en los servidores.
     </div>
-    """, unsafe_index=True)
+    """, unsafe_allow_html=True)
