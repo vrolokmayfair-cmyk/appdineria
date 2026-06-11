@@ -46,8 +46,8 @@ st.markdown("""
         color: #1b5e20;
         font-weight: bold;
         font-size: 18px;
-        margin-top: 15px;
-        margin-bottom: 5px;
+        margin-top: 10px;
+        margin-bottom: 15px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -242,13 +242,13 @@ elif opcion == "4. Métodos y Canales de Pago":
         "Es obligatorio indicar al cliente el concepto de pago de manera exacta para evitar problemas de unificación."
     )
 
-    # Pestañas para segmentar los métodos de pago de cada producto de forma ordenada
+    # Pestañas estructuradas homogéneamente para una excelente visualización
     tab1, tab2, tab3 = st.tabs(["Dineria.mx", "PRESTOMIN", "Lanu.mx"])
 
+    # --- PESTAÑA 1: DINERIA.MX ---
     with tab1:
         st.markdown('<div class="payment-brand">Canales Autorizados para dineria.mx</div>', unsafe_allow_html=True)
         
-        # 1. Transferencia Bancaria
         with st.expander("1. Transferencia Electrónica (SPEI)"):
             st.markdown("""
             * **Beneficiario:** Proximus Finance S DE RL DE CV
@@ -257,7 +257,6 @@ elif opcion == "4. Métodos y Canales de Pago":
             * **Concepto:** `RFC + Dígito verificador` del cliente
             """)
             
-        # 2. Practicaja o Ventanilla BBVA
         with st.expander("2. Practicaja o Ventanilla BBVA"):
             st.markdown("""
             * **Ubicación:** Sucursal BBVA más cercana.
@@ -267,7 +266,6 @@ elif opcion == "4. Métodos y Canales de Pago":
             * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
             """)
             
-        # 3. Pago en Tiendas OXXO
         with st.expander("3. Pago Presencial en OXXO"):
             st.markdown("""
             * **Ubicación:** Cualquier sucursal OXXO de la República Mexicana.
@@ -275,24 +273,57 @@ elif opcion == "4. Métodos y Canales de Pago":
             * **Requisito Obligatorio:** Deberá presentar su **Estado de Cuenta impreso** y mostrar el código de barras al cajero para su escaneo.
             """)
 
+    # --- PESTAÑA 2: PRESTOMIN ---
     with tab2:
         st.markdown('<div class="payment-brand">Canales Autorizados para PRESTOMIN</div>', unsafe_allow_html=True)
         
-        # 1. Practicaja o Ventanilla BBVA
-        st.markdown("#### 1. Módulo BBVA (Ventanilla / Practicaja)")
-        st.markdown("""
-        * **Ubicación:** Sucursal BBVA más cercana.
-        * **Instrucciones Generales:**
-            * En **Ventanilla**: Brindar de forma directa los datos al ejecutivo en caja.
-            * En **Practicaja**: Escoger la opción de pantalla **"Pago de Servicios"** e ingresar manualmente los datos.
-        * **Número de Convenio:** `002370344`
-        * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
-        * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
-        """)
+        with st.expander("1. Ventanilla Bancaria BBVA"):
+            st.markdown("""
+            * **Ubicación:** Sucursal BBVA más cercana.
+            * **Mecánica:** El cliente tiene que acudir de manera presencial a la zona de cajas.
+            * **Número de Convenio:** `002370344`
+            * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
+            * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
+            """)
+            
+        with st.expander("2. Practicaja BBVA"):
+            st.markdown("""
+            * **Ubicación:** Área de autoservicio (Practicajas) en cualquier sucursal BBVA.
+            * **Instrucciones en Pantalla:** Escoger la opción **"Pago de Servicios"**.
+            * **Ingreso de Datos:** Capturar manualmente el número de convenio oficial.
+            * **Número de Convenio:** `002370344`
+            * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
+            * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
+            """)
 
+    # --- PESTAÑA 3: LANU.MX ---
     with tab3:
         st.markdown('<div class="payment-brand">Canales Autorizados para lanu.mx</div>', unsafe_allow_html=True)
         
-        # 1. Practicaja o Ventanilla BBVA
         with st.expander("1. Practicaja o Ventanilla BBVA"):
-            st
+            st.markdown("""
+            * **Ubicación:** Sucursal BBVA más cercana.
+            * **Instrucciones en Ventanilla:** Brindar el número de convenio de forma directa al cajero.
+            * **Instrucciones en Practicaja:** Escoger la opción **"Pago de Servicios"** e ingresar manualmente el identificador.
+            * **Número de Convenio:** `2460149`
+            * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
+            * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
+            """)
+            
+        with st.expander("2. Transferencia Bancaria (De Bancomer a Bancomer)"):
+            st.markdown("""
+            * **Mecánica:** Operación directa desde la aplicación móvil de BBVA Bancomer.
+            * **Instrucción de Registro:** El cliente tiene que dar de alta nuestro servicio como **"Pago de Servicios"** dentro de su app móvil.
+            * **Número de Convenio:** `2460149`
+            * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
+            * **Acción:** Capturar el monto exacto de la operación (extensión o totalidad).
+            * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
+            """)
+            
+        with st.expander("3. Tiendas de Conveniencia via PAYNET"):
+            st.markdown("""
+            * **Comercios Participantes:** Walmart, Sam's Club, Bodega Aurrera, 7-Eleven, Farmacias del Ahorro, Extra y Círculo K.
+            * **Mecánica Digital Previa:** El cliente tiene que generar su **código de barras** oficial ingresando a su perfil personal en el portal de la marca.
+            * **Selección en Portal:** Indicar explícitamente el método de pago **Paynet** y capturar el importe de su trámite (extensión o liquidación completa).
+            * **Pago Presencial:** Presentarse en las cajas de cualquiera de los comercios enlistados arriba exhibiendo el código de barras impreso o digital para completar el depósito.
+            """)
