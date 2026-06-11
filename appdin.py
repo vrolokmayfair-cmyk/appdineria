@@ -242,7 +242,7 @@ elif opcion == "4. Métodos y Canales de Pago":
         "Es obligatorio indicar al cliente el concepto de pago de manera exacta para evitar problemas de unificación."
     )
 
-    # Pestañas estructuradas homogéneamente para una excelente visualización
+    # Creación de pestañas ordenadas por marca
     tab1, tab2, tab3 = st.tabs(["Dineria.mx", "PRESTOMIN", "Lanu.mx"])
 
     # --- PESTAÑA 1: DINERIA.MX ---
@@ -296,6 +296,14 @@ elif opcion == "4. Métodos y Canales de Pago":
             * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
             """)
 
+        with st.expander("3. Tiendas de Conveniencia via PAYNET"):
+            st.markdown("""
+            * **Comercios Participantes:** Walmart, Sam's Club, Bodega Aurrera, 7-Eleven, Farmacias del Ahorro, Extra y Círculo K.
+            * **Mecánica Digital Previa:** El cliente tiene que generar su **código de barras** oficial ingresando a su perfil personal en el portal de la marca.
+            * **Selección en Portal:** Indicar explícitamente el método de pago **Paynet** y capturar el importe de su trámite (extensión o liquidación completa).
+            * **Pago Presencial:** Presentarse en las cajas de cualquiera de los comercios enlistados arriba exhibiendo el código de barras impreso o digital para completar el depósito.
+            """)
+
     # --- PESTAÑA 3: LANU.MX ---
     with tab3:
         st.markdown('<div class="payment-brand">Canales Autorizados para lanu.mx</div>', unsafe_allow_html=True)
@@ -303,27 +311,19 @@ elif opcion == "4. Métodos y Canales de Pago":
         with st.expander("1. Practicaja o Ventanilla BBVA"):
             st.markdown("""
             * **Ubicación:** Sucursal BBVA más cercana.
-            * **Instrucciones en Ventanilla:** Brindar el número de convenio de forma directa al cajero.
+            * **Instrucciones en Ventanilla:** Brindar el número de convenio de forma directo al cajero.
             * **Instrucciones en Practicaja:** Escoger la opción **"Pago de Servicios"** e ingresar manualmente el identificador.
             * **Número de Convenio:** `2460149`
             * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
             * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
             """)
             
-        with st.expander("2. Transferencia Bancaria (De Bancomer a Bancomer)"):
+        with st.expander("2. Transferencia Bancaria"):
             st.markdown("""
-            * **Mecánica:** Operación directa desde la aplicación móvil de BBVA Bancomer.
-            * **Instrucción de Registro:** El cliente tiene que dar de alta nuestro servicio como **"Pago de Servicios"** dentro de su app móvil.
+            * **Mecánica:** Operación de transferencia de cuenta **De Bancomer a Bancomer**.
+            * **Instrucción de Registro:** El cliente tiene que dar de alta nuestro servicio como **"Pago de Servicios"** dentro de su aplicación móvil de BBVA.
             * **Número de Convenio:** `2460149`
             * **Nombre del Beneficiario:** SOFI DIGITAL MX,S.A. DE C.V.
-            * **Acción:** Capturar el monto exacto de la operación (extensión o totalidad).
+            * **Acción:** Capturar el monto exacto de la operación.
             * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
-            """)
-            
-        with st.expander("3. Tiendas de Conveniencia via PAYNET"):
-            st.markdown("""
-            * **Comercios Participantes:** Walmart, Sam's Club, Bodega Aurrera, 7-Eleven, Farmacias del Ahorro, Extra y Círculo K.
-            * **Mecánica Digital Previa:** El cliente tiene que generar su **código de barras** oficial ingresando a su perfil personal en el portal de la marca.
-            * **Selección en Portal:** Indicar explícitamente el método de pago **Paynet** y capturar el importe de su trámite (extensión o liquidación completa).
-            * **Pago Presencial:** Presentarse en las cajas de cualquiera de los comercios enlistados arriba exhibiendo el código de barras impreso o digital para completar el depósito.
             """)
