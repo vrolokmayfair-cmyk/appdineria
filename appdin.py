@@ -163,7 +163,7 @@ elif opcion == "2. Cuadro de Tasas Financieras":
 
 
 # ==============================================================================
-# MÓDULO 3: MATRIZ DE DESCUENTOS (WASH) Y REGLAS DE NEGOCIO (CORREGIDO)
+# MÓDULO 3: MATRIZ DE DESCUENTOS (WASH) Y REGLAS DE NEGOCIO
 # ==============================================================================
 elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
     st.markdown('<h2 class="section-header">📉 Matriz de Descuentos de Acuerdo al Segmento Wash</h2>', unsafe_allow_html=True)
@@ -172,7 +172,7 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
         "El uso de estas bases garantiza la correcta conciliación automatizada con el sistema core."
     )
 
-    # Ajustado para incluir los parámetros de descuento aplicables desde Wash 0
+    # Matriz limpia incluyendo los descuentos asignados desde Wash 0
     descuentos_data = {
         "Segmento de Mora": [
             "Wash 0 (Mora Preventiva)", 
@@ -187,13 +187,13 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
             "Factor 1.0"
         ],
         "Base de Cálculo en Sistema": [
-            "Calculado sobre el saldo bruto actual parametrizado para cuentas iniciales.",
+            "Calculado sobre el Saldo Bruto Total Exigible.",
             "Calculado sobre el Saldo Bruto Total (Capital + Comisiones acumuladas + IVA).",
             "Calculado sobre el Saldo de Capital Remanente (Principal Unpaid).",
             "Calculado sobre el Monto Principal Otorgado Inicial (Issued Amount original)."
         ],
         "Margen de Condonación Permitido": [
-            "Esquema de descuento inicial autorizado según los términos vigentes del archivo de campaña.",
+            "Descuento inicial según parámetros vigentes del Layout de Campaña.",
             "Hasta un 20% máximo de condonación sobre el saldo total acumulado.",
             "Hasta un 40% de descuento, eliminando moratorios generados en el periodo.",
             "Liquidación al 100% del principal original, condonando el total de intereses y comisiones."
@@ -208,4 +208,18 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
     st.markdown("""
     <div class="rule-card">
         <strong>1. Respeto Estricto de Factores:</strong><br>
-        Ning
+        Ningún asesor de cobranza o supervisor de agencia externa tiene facultades operativas en el core para aplicar quitas fuera de los factores asignados desde Wash 0 hasta Wash 3. Cualquier desviación en el cálculo provocará que el script de validación de pagos rechace la conciliación automática.
+    </div>
+    <div class="rule-card">
+        <strong>2. Ventana de Promesas y Cierre de Abanderamiento:</strong><br>
+        Para que un descuento negociado sea respetado por el sistema y la cuenta no regrese al marcado masivo general, se debe registrar una promesa válida en el sistema antes del <strong>Martes a las 11:00 PM</strong>. Los acuerdos registrados los miércoles por la mañana se procesan sin abanderamiento y quedan expuestos a reasignación de cartera.
+    </div>
+    <div class="rule-card">
+        <strong>3. Excepciones Especiales (Mesa de Control):</strong><br>
+        Cualquier propuesta económica que requiera romper los límites fijados por la matriz Wash debido a condiciones socioeconómicas críticas demostradas por el cliente, deberá tramitarse mediante un ticket formal enviado a la <strong>Dirección de Finanzas / Mesa de Control Inhouse</strong>. La respuesta de validación toma un plazo máximo de 3 días hábiles.
+    </div>
+    <div class="rule-card">
+        <strong>4. Validación de Cartas Convenio:</strong><br>
+        Antes de indicarle al cliente que efectúe el depósito acordado con descuento, la agencia externa está obligada a emitir la Carta Convenio foliada y cargar el layout de pre-cierre. Pagos realizados sin el correspondiente soporte documental no se unificarán y se tomarán únicamente como abonos parciales al capital neto, reactivando la mora.
+    </div>
+    """, unsafe_allow_html=True)
