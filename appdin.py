@@ -5,50 +5,50 @@ import pandas as pd
 # CONFIGURACIÓN DE LA PÁGINA Y ESTILOS
 # ==============================================================================
 st.set_page_config(
-    page_title="Glosario y Matriz Financiera - Campaña 2026",
-    page_icon="📚",
+    page_title="Portal de Consulta - Dineria.mx",
+    page_icon="💼",
     layout="wide"
 )
 
-# Estilos personalizados (Estética oscura/oro refinada e institucional)
+# Estilos personalizados (Verde Institucional de Dineria y Gris Claro para legibilidad)
 st.markdown("""
     <style>
     .main-title {
-        color: #d4af37;
+        color: #1b5e20;
         font-family: 'Segoe UI', sans-serif;
         font-weight: 700;
         font-size: 30px;
         margin-bottom: 5px;
     }
     .subtitle {
-        color: #a5a5a5;
+        color: #444444;
         font-family: 'Segoe UI', sans-serif;
         font-size: 16px;
         margin-bottom: 25px;
     }
     .section-header {
-        color: #d4af37;
+        color: #1b5e20;
         font-family: 'Segoe UI', sans-serif;
-        border-bottom: 2px solid #d4af37;
+        border-bottom: 2px solid #1b5e20;
         padding-bottom: 5px;
         margin-top: 30px;
         margin-bottom: 15px;
     }
     .rule-card {
-        background-color: #1e1e1e;
-        border-left: 5px solid #d4af37;
+        background-color: #f1f8e9;
+        border-left: 5px solid #2e7d32;
         padding: 15px;
         border-radius: 4px;
         margin-bottom: 12px;
-        color: #e0e0e0;
+        color: #212121;
     }
     </style>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# ENCABEZADO PRINCIPAL
+# ENCABEZADO PRINCIPAL (SÓLO DINERIA.MX)
 # ==============================================================================
-st.markdown('<div class="main-title">EL TEMPLO DE ANUBIS - CONSULTA OPERATIVA</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">DINERIA.MX - PORTAL DE CONSULTA OPERATIVA</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Módulo de Glosario de Campaña y Estructura de Tasas Financieras</div>', unsafe_allow_html=True)
 
 # ==============================================================================
@@ -63,7 +63,7 @@ opcion = st.sidebar.radio(
 st.sidebar.markdown("---")
 st.sidebar.info(
     "💡 **Instrucción Operativa:**\n"
-    "Este portal centraliza los términos oficiales del Core Bancario y las tasas vigentes para las marcas Dineria.mx y Lanu.mx."
+    "Este portal centraliza los términos oficiales del Core Bancario y las tasas vigentes para la campaña Dineria.mx."
 )
 
 # ==============================================================================
@@ -127,12 +127,12 @@ if opcion == "1. Glosario de Tecnicismos":
 # ==============================================================================
 elif opcion == "2. Cuadro de Tasas Financieras":
     st.markdown('<h2 class="section-header">📊 Cuadro de Tasas Financieras de la Operación</h2>', unsafe_allow_html=True)
-    st.write("Estructura oficial de rendimientos, tasas equivalentes ordinarias y recargos moratorios programados en el core:")
+    st.write("Estructura oficial de rendimientos, tasas equivalentes ordinarias y recargos moratorios programados inhouse:")
 
     # Datos del cuadro de tasas
     tasas_data = {
         "Tipo de Concepto / Producto": [
-            "Interés Ordinario Base (Dineria.mx / Lanu.mx)",
+            "Interés Ordinario Base (Dineria.mx)",
             "Penalización Moratoria por Atraso (Fines)",
             "Tasa Ponderada de Control Interno"
         ],
@@ -150,7 +150,7 @@ elif opcion == "2. Cuadro de Tasas Financieras":
     st.table(df_tasas)
 
     # REGLAS DE IMPACTO FINANCIERO Y OPERATIVO
-    st.markdown('<h3 style="color:#d4af37; margin-top:25px;">⚠️ Reglas Críticas de Aplicación de Tasas</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 style="color:#1b5e20; margin-top:25px;">⚠️ Reglas Críticas de Aplicación de Tasas</h3>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="rule-card">
