@@ -125,25 +125,19 @@ if opcion == "1. Glosario de Tecnicismos":
 
 
 # ==============================================================================
-# MÓDULO 2: CUADRO DE TASAS FINANCIERAS
+# MÓDULO 2: CUADRO DE TASAS FINANCIERAS (CORREGIDO CON VALORES EXCLUSIVOS)
 # ==============================================================================
 elif opcion == "2. Cuadro de Tasas Financieras":
     st.markdown('<h2 class="section-header">📊 Cuadro de Tasas Financieras de la Operación</h2>', unsafe_allow_html=True)
-    st.write("Estructura oficial de rendimientos, tasas equivalentes ordinarias y recargos moratorios programados inhouse:")
+    st.write("Estructura oficial de recargos moratorios programados inhouse extraída de las reglas de negocio:")
 
     tasas_data = {
-        "Tipo de Concepto / Producto": [
-            "Interés Ordinario Base (Dineria.mx)",
-            "Penalización Moratoria por Atraso (Fines)",
-            "Tasa Ponderada de Control Interno"
+        "Concepto de Tasa": [
+            "Penalización Moratoria por Atraso (Fines)"
         ],
-        "Tasa Diaria": ["0.80%", "2.00%", "1.15%"],
-        "Tasa Mensual (Base 30 días)": ["24.00%", "60.00%", "34.50%"],
-        "Tasa Anualizada (CAT Informativo)": ["288.00%", "720.00%", "414.00%"],
-        "Mecánica de Aplicación en Sistema": [
-            "Se calcula exclusivamente sobre el Monto Principal (Issued Amount) activo.",
-            "Se ejecuta directo sobre el Saldo Total Deudor (Loan Repayment) por cada día de mora acumulado.",
-            "Indicador referencial para métricas contables inhouse."
+        "Tasa Diaria": ["2.00%"],
+        "Base de Cálculo del Sistema": [
+            "Se calcula de manera fija y diaria directamente sobre el saldo deudor total (Loan Repayment)."
         ]
     }
     
@@ -154,8 +148,8 @@ elif opcion == "2. Cuadro de Tasas Financieras":
     
     st.markdown("""
     <div class="rule-card">
-        <strong>1. Transición de Tasas en Asignación Externa:</strong><br>
-        Cuando el core transfiere una cuenta a agencias externas por mora profunda (segmentos Wash 2 o superior), el sistema <strong>congela de forma automática la acumulación del interés ordinario</strong>. A partir de ese momento, la carga financiera recae de forma exclusiva en la tasa de interés moratorio (Fines del 2% diario) sobre el saldo acumulado.
+        <strong>1. Aplicación de Penalizaciones (Fines):</strong><br>
+        De acuerdo con las políticas corporativas de la campaña, las penalizaciones moratorias diarias equivalentes al 2% se ejecutan de manera automática e ininterrumpida por cada día de atraso registrado tras vencer la fecha límite de pago de la cuenta.
     </div>
     <div class="rule-card">
         <strong>2. Regla del Abono Parcial Insuficiente:</strong><br>
@@ -163,7 +157,7 @@ elif opcion == "2. Cuadro de Tasas Financieras":
     </div>
     <div class="rule-card">
         <strong>3. Cierre de Conciliaciones:</strong><br>
-        Todos los montos recaudados e intereses aplicados deben revisarse contra el Layout de Pre-Cierres provisto por el área de Pagos. Las agencias externas cuentan con un plazo límite e improrrogable de 8 días naturales para conciliar diferencias antes de que el cierre financiero sea definitivo en los servidores.
+        Todos los montos recaudados deben revisarse contra el Layout de Pre-Cierres provisto por el área de Pagos. Las agencias externas cuentan con un plazo límite e improrrogable de 8 días naturales para conciliar diferencias antes de que el cierre financiero sea definitivo en los servidores.
     </div>
     """, unsafe_allow_html=True)
 
@@ -171,14 +165,13 @@ elif opcion == "2. Cuadro de Tasas Financieras":
 # ==============================================================================
 # MÓDULO 3: MATRIZ DE DESCUENTOS (WASH) Y REGLAS DE NEGOCIO
 # ==============================================================================
-elif opcion == "3. Matriz de Descuentos (Wash) y Rules":
+elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
     st.markdown('<h2 class="section-header">📉 Matriz de Descuentos de Acuerdo al Segmento Wash</h2>', unsafe_allow_html=True)
     st.write(
         "Parámetros comerciales obligatorios y factores duros asignados para la negociación de cuentas en atraso. "
         "El uso de estas bases garantiza la correcta conciliación automatizada con el sistema core."
     )
 
-    # Tabla estructurada de descuentos basados en los factores del modelo de negocio
     descuentos_data = {
         "Segmento de Mora": [
             "Wash 0 (Mora Preventiva)", 
@@ -209,7 +202,6 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Rules":
     df_descuentos = pd.DataFrame(descuentos_data)
     st.dataframe(df_descuentos, use_container_width=True, hide_index=True)
 
-    # REGLAS DE LOS DESCUENTOS
     st.markdown('<h3 style="color:#1b5e20; margin-top:25px;">📋 Reglas de Negocio para la Aplicación de Descuentos</h3>', unsafe_allow_html=True)
 
     st.markdown("""
