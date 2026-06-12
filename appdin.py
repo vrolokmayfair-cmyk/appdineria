@@ -56,7 +56,7 @@ st.markdown("""
 # ENCABEZADO PRINCIPAL
 # ==============================================================================
 st.markdown('<div class="main-title">DINERIA.MX - PORTAL DE CONSULTA OPERATIVA</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Módulo de Glosario, Estructura de Tasas, Descuentos y Métodos de Pago</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Módulo de Glosario, Estructura de Tasas, Descuentos, Métodos de Pago y Procesos Operativos</div>', unsafe_allow_html=True)
 
 # ==============================================================================
 # MENÚ DE NAVEGACIÓN LATERAL (SIDEBAR)
@@ -68,14 +68,16 @@ opcion = st.sidebar.radio(
         "1. Glosario de Tecnicismos", 
         "2. Cuadro de Tasas Financieras",
         "3. Matriz de Descuentos (Wash) y Reglas",
-        "4. Métodos y Canales de Pago"
+        "4. Métodos y Canales de Pago",
+        "5. Políticas de Abanderamiento",
+        "6. Control Semanal (Convenios y Conciliaciones)"
     ]
 )
 
 st.sidebar.markdown("---")
 st.sidebar.info(
     "💡 **Instrucción Operativa:**\n"
-    "Este portal centraliza los términos oficiales del Core Bancario, las tasas vigentes, los márgenes de negociación y las cuentas bancarias autorizadas para la recaudación."
+    "Este portal centraliza los términos oficiales del Core Bancario, las tasas vigentes, los márgenes de negociación, cuentas de recaudación y guías semanales de control."
 )
 
 # ==============================================================================
@@ -201,7 +203,7 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
     df_descuentos = pd.DataFrame(descuentos_data)
     st.dataframe(df_descuentos, use_container_width=True, hide_index=True)
 
-    st.markdown('<h3 style="color:#1b5e20; margin-top:25px;">📋 Reglas de Validación y Restricciones de Negocio</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 style="color:#1b5e20; margin-top:25px;">📋 Reglas de Validation y Restricciones de Negocio</h3>', unsafe_allow_html=True)
 
     st.markdown("""
     <div class="rule-card">
@@ -218,13 +220,12 @@ elif opcion == "3. Matriz de Descuentos (Wash) y Reglas":
         <ul>
             <li>El factor de descuento del 1.0 se aplicará de forma única y exclusiva sobre el <strong>Principal Inicial otorgado al cliente (Columna K - issued_amount)</strong> del archivo de saldos.</li>
             <li><strong>Límite Crítico:</strong> Este monto (1.0 del Principal inicial) constituye el <em>descuento máximo absoluto</em> autorizado para este segmento. Bajo ninguna circunstancia se podrá ofrecer o procesar un esquema de liquidación que resulte en un pago menor al Principal otorgado de la cuenta.</li>
-            <li>Los topes cruzados explicados en las restricciones 1 y 2 no operan bajo la misma lógica para Wash 3, ya que la base de cálculo cambia directamente a la Columna K.</li>
         </ul>
     </div>
     <div class="rule-card">
         <strong>4. Criterios Operativos y de Cumplimiento General:</strong><br>
         <ul>
-            <li><strong>Vigencia Estricta de la Información:</strong> Para generar, simular o registrar cualquier tipo de convenio de pago o descuento, es obligatorio e indispensable utilizar el archivo de "Saldos" emitido el mismo día en que se efectúa el compromiso con el cliente. Queda estrictamente prohibido utilizar bases de datos de días o fechas anteriores.</li>
+            <li><strong>Vigencia Estricta de la Información:</strong> Para generar, simular o registrar cualquier tipo de convenio de pago o descuento, es obligatorio e indispensable utilizar el archivo de "Saldos" emitido el mismo día en que se efectúa el compromiso con el cliente.</li>
             <li><strong>Frecuencia e Historial de Pagos:</strong> Estas directrices de descuento se aplicarán de forma uniforme, sin importar el número de pagos previos que el cliente titular de la cuenta haya realizado a lo largo de la vida del crédito.</li>
             <li><strong>Canal de Excepciones Especiales:</strong> Ante cualquier escenario, caso particular o cuenta atípica que requiera una valoración diferenciada o soporte adicional fuera de esta matriz, se deberá mantener el canal habitual de comunicación enviando la solicitud formal con el caso documentado a través del grupo oficial de WhatsApp para su respectiva validación y apoyo.</li>
         </ul>
@@ -242,7 +243,6 @@ elif opcion == "4. Métodos y Canales de Pago":
         "Es obligatorio indicar al cliente el concepto de pago de manera exacta para evitar problemas de unificación."
     )
 
-    # Creación de pestañas ordenadas por marca
     tab1, tab2, tab3 = st.tabs(["Dineria.mx", "PRESTOMIN", "Lanu.mx"])
 
     # --- PESTAÑA 1: DINERIA.MX ---
@@ -327,3 +327,102 @@ elif opcion == "4. Métodos y Canales de Pago":
             * **Acción:** Capturar el monto exacto de la operación.
             * **Referencia y/o Concepto:** `RFC + Dígito verificador` del cliente
             """)
+
+
+# ==============================================================================
+# MÓDULO 5: POLÍTICAS DE ABANDERAMIENTO
+# ==============================================================================
+elif opcion == "5. Políticas de Abanderamiento":
+    st.markdown('<h2 class="section-header">🚩 Guía y Políticas de Abanderamiento de Cuentas</h2>', unsafe_allow_html=True)
+    st.write("Criterios técnicos para retener la gestión de una cuenta asignada mediante convenios formalizados.")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        <div class="rule-card">
+            <strong>⏱️ Periodo Estándar de Gestión (Por Asignación):</strong><br>
+            Las agencias cuentan con ventanas limitadas de tiempo para trabajar su cartera antes de la fecha de retiro nominal (campo <em>exa_end_date_to_be</em> en archivo de Saldos):
+            <ul>
+                <li><strong>Wash 0, 1 y 2:</strong> 90 días naturales para gestionar.</li>
+                <li><strong>Wash 3:</strong> 60 días naturales para gestionar.</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+        <div class="rule-card">
+            <strong>📅 Límites del Abanderamiento Especial:</strong><br>
+            <ul>
+                <li><strong>Extensión Máxima:</strong> Hasta un máximo de <strong>1 mes calendario</strong>.</li>
+                <li><strong>Regla de Envío Obligatorio:</strong> Cada semana se debe volver a incluir la cuenta en el layout correspondiente para conservar el estatus.</li>
+                <li><strong>Penalización por Inactividad:</strong> Si pasado un mes desde la primera solicitud no se registra ningún pago en el sistema, la gestión será retirada de forma definitiva.</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown('<h3 style="color:#1b5e20;">🛡️ Escenarios Especiales de Retención</h3>', unsafe_allow_html=True)
+    
+    with st.expander("Caso 1: El pago del cliente se aplicó accidentalmente a una Extensión (Rollover)"):
+        st.markdown("""
+        Ocurre cuando el titular realiza un depósito **igual o mayor** al monto de la extensión (`rollover_fee`). 
+        El motor inhouse acredita de forma automática la prórroga y manda el remanente a capital, lo que causa que el sistema interprete la cuenta como 'regularizada' y la retire de la asignación de la agencia.
+        
+        *⚠️ **Restricción de Segmento:** Este comportamiento automático aplica únicamente en **Wash 0** y cuentas con **menos de 31 días de atraso**.*
+
+        **Acciones Preventivas Obligatorias de la Agencia:**
+        * **Opción A:** Instruir al titular a realizar un pago estrictamente **menor** al monto del `rollover_fee`. Así, no se activa el motor de extensiones y la cuenta permanece con saldo activo en la asignación de la agencia.
+        * **Opción B:** Solicitar de forma inmediata por el grupo oficial de WhatsApp que el área de Operaciones ajuste manualmente el pago para que se aplique directamente al adeudo total del préstamo.
+        """)
+
+    with st.expander("Caso 2: Fecha de vencimiento o retiro de gestión muy próxima"):
+        st.markdown("""
+        Si el convenio está negociado de forma exitosa pero la fecha límite de retiro (`exa_end_date_to_be`) está por cumplirse, la agencia puede solicitar el **Abanderamiento formal** para añadir una semana extra de plazo y consolidar el cobro.
+        
+        **Requisitos para Proceder:**
+        1. Contar con un convenio de pago debidamente emitido y vigente.
+        2. Llenar de forma correcta el formato `Layout_Abanderadas_Mayo 2026`.
+        3. Enviar la información por correo electrónico institucional.
+        4. **Fecha y Hora Límite Improrrogable:** Los días **Martes a más tardar a las 11:00 PM**.
+        """)
+
+
+# ==============================================================================
+# MÓDULO 6: CONTROL SEMANAL (CONVENIOS Y CONCILIACIONES)
+# ==============================================================================
+elif opcion == "6. Control Semanal (Convenios y Conciliaciones)":
+    st.markdown('<h2 class="section-header">📆 Control Semanal de Procesos y Flujos Operativos</h2>', unsafe_allow_html=True)
+    
+    st.markdown("### 🕊️ Envío de Convenios Generados")
+    st.markdown("""
+    Una vez concretado el acuerdo de pago con el usuario, es una **obligación de cumplimiento crítico** compartir las condiciones documentadas el mismo día de la llamada.
+    * **Canal:** Vía correo electrónico institucional o WhatsApp.
+    * **Requisitos del Formato:** El archivo PDF debe ir debidamente membretado, incluyendo el **logotipo oficial de la agencia externa** y el **logotipo del producto correspondiente** (Dineria, Prestomin o Lanu).
+    * **Incumplimientos:** Si el cliente rompe el acuerdo y se renegocia una nueva alternativa de pago, se debe generar un nuevo documento actualizado con su respectivo folio y enviarlo de inmediato.
+    """)
+
+    st.markdown("---")
+    st.markdown("### 🔍 Conciliación Semanal de Pagos no Aplicados")
+    st.markdown("""
+    Este flujo operativo permite recuperar las comisiones de aquellas cuentas cuyos depósitos cayeron al sistema pero no se vincularon automáticamente a la clave de asignación de la agencia.
+
+    **Línea de Tiempo Operativa Semanal (Timeline):**
+    * **Lunes:** Recepción del **Primer Ranking Semanal** enviado por la mesa de control de Dineria.
+    * **Martes:** * Auditoría interna periódica en la agencia.
+        * Envío del Layout de Conciliación Semanal de pagos no aplicados.
+        * Envío del layout de cuentas abanderadas *(Límite 11:00 PM)*.
+    * **Miércoles:** Procesamiento interno en servidores y asignación de cartera recuperada.
+    * **Jueves:** Recepción del **Segundo Ranking Semanal** con los ajustes aplicados.
+    * **Viernes:** Retiro operativo de cuentas inactivas o vencidas del sistema.
+    """)
+
+    st.markdown("""
+    <div class="rule-card" style="background-color: #fff3e0; border-left: 5px solid #ff9800;">
+        <strong>🚨 POLÍTICA DE CIERRE DE CONCILIACIONES MENSUAL (MESA DE PAGOS)</strong><br>
+        Al finalizar el mes de gestión, el área de Pagos enviará el reporte de <strong>Pre-Cierres oficiales</strong> a cada una de las agencias externas. 
+        <ul>
+            <li>Las agencias disponen de un plazo máximo e improrrogable de <strong>8 días naturales</strong> para ingresar aclaraciones y obtener el Visto Bueno (Vo. Bo.).</li>
+            <li><strong>Cierre Definitivo:</strong> Pasados los 8 días, la mesa de Pagos procesará las cifras finales con los datos disponibles en base de datos. <strong>No se aceptará ningún tipo de modificación, reclamo ni pago nuevo posterior a esta fecha.</strong></li>
+            <li>Las cifras validadas al concluir esta ventana serán las únicas consideradas como definitivas para el cálculo del esquema de facturación y comisiones.</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
